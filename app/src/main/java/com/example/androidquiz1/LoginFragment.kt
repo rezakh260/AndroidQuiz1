@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.androidquiz1.databinding.ActivityMainBinding
+import android.widget.EditText
+import com.example.androidquiz1.databinding.FragmentLoginBinding
 import com.google.android.material.button.MaterialButton
 
 // TODO: Rename parameter arguments, choose names that match
@@ -13,16 +14,11 @@ import com.google.android.material.button.MaterialButton
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
-private lateinit var binding: ActivityMainBinding
-
 
 class LoginFragment : Fragment() {
+
+
+    private lateinit var binding: FragmentLoginBinding
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -41,42 +37,36 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_login, container, false)
-        val btnSignup = view?.findViewById<MaterialButton>(R.id.btn_signup1)
-        btnSignup?.setOnClickListener {
+        //val view =  inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        //val btnSignup = view?.findViewById<MaterialButton>(R.id.btn_signup1)
+        //val userLogin = view?.findViewById<EditText>(R.id.loginUserEt)
+        //val passwordLogin = view?.findViewById<EditText>(R.id.passwordUserEt)
+        binding.btnSignup1.setOnClickListener {
+
+            val inputUser = binding.loginUserEt.text.toString()
+            val inputPassword = binding.passwordUserEt.text.toString()
 
             val bundle = Bundle()
+
+            bundle.putString("User", inputUser)
+            bundle.putString("Pass", inputPassword)
             val fragment = SignupFragment()
-            fragment.arguments= bundle
-            fragmentManager?.beginTransaction()?.replace(R.id.Id_fragmentContainer,fragment)?.commit()
-
-
+            fragment.arguments = bundle
+            fragmentManager?.beginTransaction()?.replace(R.id.Id_fragmentContainer, fragment)
+                ?.commit()
         }
-        return view
+        val args = this.arguments
+        val inputUser3 = args?.get("User2")
+        val inputPassword3 = args?.get("Pass2")
+
+        binding.loginUserEt.setText(inputUser3.toString())
+        binding.passwordUserEt.setText(inputPassword3.toString())
 
 
 
-
-
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
