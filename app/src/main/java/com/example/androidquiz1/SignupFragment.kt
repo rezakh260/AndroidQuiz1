@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.androidquiz1.databinding.FragmentSignupBinding
 import com.google.android.material.button.MaterialButton
 
@@ -25,6 +27,7 @@ class SignupFragment : Fragment() {
     private var param2: String? = null
 
 
+    private val viewModel: FirstViewModel by viewModels()
     private lateinit var binding: FragmentSignupBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,17 +58,27 @@ class SignupFragment : Fragment() {
 
         binding.btnSignup2.setOnClickListener {
 
-            val bundle = Bundle()
 
+            if (binding.signupUserEt.text.toString()
+                    .isEmpty() || binding.signupPasswordEt.text.toString().isEmpty()
+            ) {
+                Toast.makeText(context, "Please Insert Username and Password", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            else{
+
+
+            val bundle = Bundle()
             val inputUser2 = binding.signupUserEt.text.toString()
             val inputPassword2 = binding.signupPasswordEt.text.toString()
-            bundle.putString("User2",inputUser2 )
+            bundle.putString("User2", inputUser2)
             bundle.putString("Pass2", inputPassword2)
 
             val fragment2 = LoginFragment()
             fragment2.arguments = bundle
             fragmentManager?.beginTransaction()?.replace(R.id.Id_fragmentContainer, fragment2)
                 ?.commit()
+            }
         }
 
 
